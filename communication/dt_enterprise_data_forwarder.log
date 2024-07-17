@@ -1,0 +1,6 @@
+2024-07-17 11:32:18,038 - ERROR - Fetch to node 0 failed: Cancelled: <BrokerConnection node_id=0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>
+2024-07-17 11:32:18,038 - ERROR - Fetch to node 1 failed: Cancelled: <BrokerConnection node_id=1 host=localhost:9093 <connected> [IPv6 ('::1', 9093, 0, 0)]>
+2024-07-17 11:32:18,039 - ERROR - Fetch to node 0 failed: Cancelled: <BrokerConnection node_id=0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>
+2024-07-17 11:53:36,298 - ERROR - Fetch to node 1 failed: Cancelled: <BrokerConnection node_id=1 host=localhost:9093 <connected> [IPv6 ('::1', 9093, 0, 0)]>
+2024-07-17 11:53:36,298 - ERROR - Fetch to node 1 failed: Cancelled: <BrokerConnection node_id=1 host=localhost:9093 <connected> [IPv6 ('::1', 9093, 0, 0)]>
+2024-07-17 11:53:36,299 - ERROR - Fetch to node 0 failed: Cancelled: <BrokerConnection node_id=0 host=localhost:9092 <connected> [IPv6 ('::1', 9092, 0, 0)]>
