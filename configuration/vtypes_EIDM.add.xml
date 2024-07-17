@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<additional xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/additional_file.xsd">
+    
+	<inductionLoop id="M50_Northbound-1" lane="360361373.2643_0" pos="193.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="M50_Northbound-2" lane="360361373.2643_1" pos="193.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="M50_Northbound-3" lane="360361373.2643_2" pos="193.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="M50_Northbound-4" lane="360361373.2643_3" pos="193.00" friendlyPos="true" file="out.xml"/>
+   
+    <inductionLoop id="M50_Southbound-4" lane="48290550_3" pos="550.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="M50_Southbound-3" lane="48290550_2" pos="550.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="M50_Southbound-2" lane="48290550_1" pos="550.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="M50_Southbound-1" lane="48290550_0" pos="550.00" friendlyPos="true" file="out.xml"/>
+
+	<inductionLoop id="NRA_000000001508_Southbound-1" lane="106130759_0" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001508_Southbound-2" lane="106130759_1" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001508_Southbound-3" lane="106130759_2" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001508_Southbound-4" lane="106130759_3" pos="0.00" friendlyPos="true" file="out.xml"/>
+
+    <inductionLoop id="NRA_000000001508_Northbound-4" lane="gneE12_3" pos="343.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001508_Northbound-3" lane="gneE12_2" pos="343.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001508_Northbound-2" lane="gneE12_1" pos="343.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001508_Northbound-1" lane="gneE12_0" pos="343.00" friendlyPos="true" file="out.xml"/>
+
+    <inductionLoop id="NRA_000000020047_Westbound-Bus-Lane" lane="491989399#1-AddedOnRampEdge.925_0" pos="392.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000020047_Westbound-1" lane="491989399#1-AddedOnRampEdge.925_1" pos="392.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000020047_Westbound-2" lane="491989399#1-AddedOnRampEdge.925_2" pos="392.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000020047_Westbound-3" lane="491989399#1-AddedOnRampEdge.925_3" pos="392.00" friendlyPos="true" file="out.xml"/>
+
+    <inductionLoop id="NRA_000000020047_Eastbound-3" lane="48516117_3" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000020047_Eastbound-2" lane="48516117_2" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000020047_Eastbound-1" lane="48516117_1" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000020047_Eastbound-Bus-Lane" lane="48516117_0" pos="0.00" friendlyPos="true" file="out.xml"/>
+
+    <inductionLoop id="NRA_000000001070_Eastbound-1" lane="293596618#1-AddedOffRampEdge_0" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001070_Eastbound-2" lane="293596618#1-AddedOffRampEdge_1" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001070_Eastbound-3" lane="293596618#1-AddedOffRampEdge_2" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001070_Eastbound-4" lane="293596618#1-AddedOffRampEdge_3" pos="0.00" friendlyPos="true" file="out.xml"/>
+
+    <inductionLoop id="NRA_000000001070_Westbound-4" lane="428960734_3" pos="474.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001070_Westbound-3" lane="428960734_2" pos="474.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001070_Westbound-2" lane="428960734_1" pos="474.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001070_Westbound-1" lane="428960734_0" pos="474.00" friendlyPos="true" file="out.xml"/>
+
+    <inductionLoop id="NRA_000000001509_Southbound-1"  lane="345616204#1.655_0" pos="378.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001509_Southbound-2"  lane="345616204#1.655_1" pos="378.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001509_Southbound-3"  lane="345616204#1.655_2" pos="378.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001509_Southbound-4"  lane="345616204#1.655_3" pos="378.00" friendlyPos="true" file="out.xml"/>
+    
+    <inductionLoop id="NRA_000000001509_Northbound-off-slip-1"  lane="75259388-AddedOffRampEdge_0" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001509_Northbound-off-slip-2"  lane="75259388-AddedOffRampEdge_1" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001509_Northbound-1"  lane="75259388-AddedOffRampEdge_2" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001509_Northbound-2"  lane="75259388-AddedOffRampEdge_3" pos="0.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="NRA_000000001509_Northbound-3"  lane="75259388-AddedOffRampEdge_4" pos="0.00" friendlyPos="true" file="out.xml"/>
+
+    <inductionLoop id="N4-E3"  lane="621521116#0_2" pos="265.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="N4-E2"  lane="621521116#0_1" pos="265.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="N4-E1"  lane="621521116#0_0" pos="265.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="N4-W3"  lane="319144060_2" pos="4.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="N4-W2"  lane="319144060_1" pos="4.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="N4-W1"  lane="319144060_0" pos="4.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="N7-E3"  lane="615002705#1_2" pos="612.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="N7-E2"  lane="615002705#1_1" pos="612.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="N7-E1"  lane="615002705#1_0" pos="612.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="N7-W3"  lane="457424511#3_2" pos="4.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="N7-W2"  lane="457424511#3_1" pos="4.00" friendlyPos="true" file="out.xml"/>
+    <inductionLoop id="N7-W1"  lane="457424511#3_0" pos="4.00" friendlyPos="true" file="out.xml"/>
+
+	<!-- 
+    <vType id="CAT4" vClass="truck" speedDev="0.05" carFollowModel="IDM" laneChangeModel="LC2013" minGap="1" tau="0.5" sigma="0.05" probability="0"/>
+	<vType id="CAT2" vClass="truck" speedDev="0.05" carFollowModel="IDM" laneChangeModel="LC2013" minGap="1.5" tau="0.8" sigma="0.05" lcStrategic="0.5" probability="0"/> 
+    <vType id="HDT" vClass="truck" lcStrategic="0.5" carFollowModel="IDM" laneChangeModel="LC2013" minGap="1" tau="0.5" sigma="0.05" probability="1" />
+    <vType id="CAV4" vClass="passenger" speedDev="0.05" carFollowModel="IDM" minGap="1" tau="0.5" sigma="0.05" probability="0"/>
+	<vType id="CAV2" vClass="passenger" speedDev="0.05" carFollowModel="IDM" minGap="1.5" tau="0.8" sigma="0.05" lcStrategic="0.5" probability="0"/> 
+	<vType id="HDC" vClass="passenger" lcStrategic="0.5" carFollowModel="IDM" laneChangeModel="LC2013" minGap="1.5" tau="1.2" sigma="0.05" probability="1"/>
+	 -->
+     
+	<vType id="HDT" 
+       vClass="truck" 
+       lcStrategic="0.5" 
+       carFollowModel="EIDM" 
+       laneChangeModel="LC2013" 
+       minGap="1" 
+       tau="0.5" 
+       sigma="0.05" 
+       reactionTime="1.5" 
+       accel="1.0" 
+       decel="1.5" 
+       emergencyDecel="3.0" 
+       delta="4" 
+       stepping="0.25" 
+       tpreview="4.00" 
+       tPersDrive="3.00" 
+       tPersEstimate="10.00" 
+       treaction="0.50" 
+       ccoolness="0.99" 
+       sigmaleader="0.02" 
+       sigmagap="0.10" 
+       sigmaerror="0.10" 
+       jerkmax="3.00" 
+       epsilonacc="1.00" 
+       taccmax="1.20" 
+       Mflatness="2.00" 
+       Mbegin="0.70" 
+       probability="1"/>
+
+<vType id="HDC" 
+       vClass="passenger" 
+       lcStrategic="0.5" 
+       carFollowModel="EIDM" 
+       laneChangeModel="LC2013" 
+       minGap="1.5" 
+       tau="1.2" 
+       sigma="0.05" 
+       reactionTime="1.0" 
+       accel="2.0" 
+       decel="1.5" 
+       emergencyDecel="3.0" 
+       delta="4" 
+       stepping="0.25" 
+       tpreview="4.00" 
+       tPersDrive="3.00" 
+       tPersEstimate="10.00" 
+       treaction="0.50" 
+       ccoolness="0.99" 
+       sigmaleader="0.02" 
+       sigmagap="0.10" 
+       sigmaerror="0.10" 
+       jerkmax="3.00" 
+       epsilonacc="1.00" 
+       taccmax="1.20" 
+       Mflatness="2.00" 
+       Mbegin="0.70" 
+       probability="1"/>
+
+
+    
+    <vTypeDistribution id="PKW" vTypes="HDC"/>
+	<vTypeDistribution id="LKW" vTypes="HDT"/>
+	
+</additional>
