@@ -1,5 +1,0 @@
-Simulation end time:2024-07-17 11:53:09.494851
-Simulation time duration (seconds):112.68018674850464
-Simulation time duration (simulated seconds):79500.5
-Broker EP:['localhost']
-Enterprise EP:localhost:9093
