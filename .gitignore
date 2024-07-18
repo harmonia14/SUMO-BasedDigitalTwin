@@ -1,6 +1,14 @@
 .DS_Store
 communication/.DS_Store
 communication/__pycache__/
+communication/consumed_topics
+communication/test_results
+communication/dt_data_consumer.log
+communication/dt_enterprise_data_forwarder.log
+communication/dt_traffic_sumulator.log
+
+
+
 configuration/.DS_Store
-
-
+configuration/out.xml
+configuration/ssm.out.xml
