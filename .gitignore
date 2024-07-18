@@ -13,6 +13,9 @@ configuration/.DS_Store
 configuration/out.xml
 configuration/ssm.out.xml
 
+output/
+simulation/
+
 simulation/__pycache__
 simulation/.idea
 
