@@ -18,8 +18,6 @@ def addGeoDistanceNoise(coordinates):
     lat_e = w * math.sin(t)
     return lon + lon_e, lat + lat_e
 
-def getTimeStamp(date, time):
-    return str(date) + ' ' + str(datetime.timedelta(seconds=time))
 
 def mpsToKph(speed):
     return (speed * 3600) / 1000
@@ -86,8 +84,8 @@ def getInductionLoopVehicleIDs(loop_id, vehicleIDs):
     loopVehicles = traci.inductionloop.getLastStepVehicleIDs(loop_id)
     return [vehID for vehID in loopVehicles if vehID in vehicleIDs]
 
-def getProbeVehicleIDs(IDsOfVehicles):
-    return [vehID for vehID in IDsOfVehicles if traci.vehicle.getTypeID(vehID) in autonomousVehicles]
+def getProbeVehicleIDs(vehicleIDs):
+    return [vehID for vehID in vehicleIDs if traci.vehicle.getTypeID(vehID) in autonomousVehicles]
 
 def getTollVehicleIDs(vehicleIDs, p1):
     return getVehiclesInViewToll(vehicleIDs, 100, p1)
@@ -101,11 +99,11 @@ def getVehiclesInViewToll(vehicleIDs, r, p1):
             vehicles.append(vehID)
     return vehicles
 
-def create_unified_data(sensor_type, timestamp, **kwargs):
+def create_unified_data(sensor_type, **kwargs):
     data = {
         'sensor_type': sensor_type,
         'sensor_id': kwargs.get('sensor_id', ''),
-        'timestamp': str(timestamp),
+        'timestamp': f'{traci.simulation.getTime():.2f}',  # Format to 2 decimal places # Use SUMO simulation time
         'vehicle_id': kwargs.get('vehicle_id', ''),
         'lane_id': kwargs.get('lane_id', ''),
         'lane_index': kwargs.get('lane_index', ''),
@@ -120,7 +118,7 @@ def create_unified_data(sensor_type, timestamp, **kwargs):
     }
     return {k: v for k, v in data.items() if v != ''}  # Remove empty fields
 
-def getLoopData(loop_id, timestamp):
+def getLoopData(loop_id):
     vehicle_data = traci.inductionloop.getVehicleData(loop_id)
     loop_position = traci.inductionloop.getPosition(loop_id)
     
@@ -148,7 +146,6 @@ def getLoopData(loop_id, timestamp):
             
             data = create_unified_data(
                 'induction_loop',
-                timestamp,
                 sensor_id=loop_id,
                 vehicle_id=veh_id,
                 lane_id=traci.vehicle.getRoadID(veh_id),
@@ -165,7 +162,7 @@ def getLoopData(loop_id, timestamp):
     
     return data_list
 
-def getCamData(vehID, camera_id, timestamp):
+def getCamData(vehID, camera_id):
     lon, lat = CAMERA_LOOKUP[camera_id]["coordinates"].split(",")
     x, y = traci.simulation.convertGeo(float(lat), float(lon), fromGeo=True)
     p1 = [x, y]
@@ -173,7 +170,6 @@ def getCamData(vehID, camera_id, timestamp):
     p2 = [x, y]
     return create_unified_data(
         'camera',
-        timestamp,
         sensor_id=camera_id,
         vehicle_id=vehID,
         lane_id=traci.vehicle.getRoadID(vehID),
@@ -186,11 +182,10 @@ def getCamData(vehID, camera_id, timestamp):
         route_id=traci.vehicle.getRouteID(vehID) 
     )
 
-def getProbeData(vehID, timestamp):
+def getProbeData(vehID):
     lane_position = traci.vehicle.getLanePosition(vehID)
     return create_unified_data(
         'probe',
-        timestamp,
         sensor_id=vehID,  # For probes, the vehicle is the sensor
         vehicle_id=vehID,
         location=str(addGeoDistanceNoise(getVehicleLocationGeo(vehID))),
@@ -203,12 +198,11 @@ def getProbeData(vehID, timestamp):
         route_id=traci.vehicle.getRouteID(vehID) 
     )
 
-def getTollData(vehID, p1, timestamp):
+def getTollData(vehID, p1):
     x, y = traci.vehicle.getPosition(vehID)
     p2 = [x, y]
     return create_unified_data(
         'toll_bridge',
-        timestamp,
         sensor_id='toll_bridge',
         vehicle_id=vehID,
         lane_id=traci.vehicle.getRoadID(vehID),

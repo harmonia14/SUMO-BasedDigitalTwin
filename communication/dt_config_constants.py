@@ -31,7 +31,8 @@ TOPIC_LOOKUP = { "enterprise_probe_vehicles":"probe_vehicles",
 # 19:00 - 19:15：69300
 # 22:00 - 22:15：80100
 # SIMULATION_DURATION = 0 + 3600 #3600 seconds = 1 hour
-SIMULATION_DURATION = 79500 + 0.5
+
+
 pathToConfigs = '../configuration/'
 currentPath = str(pathlib.Path().resolve())
 sumoBinary = "sumo-gui"

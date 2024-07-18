@@ -6,7 +6,7 @@ from dt_config_constants import (CAMERA_LOOKUP, LOOPS, BROKER_EP, ENTERPRISE_EP,
 from kafka import KafkaAdminClient, KafkaConsumer, KafkaProducer
 from kafka.admin import NewPartitions, NewTopic
 from kafka.errors import TopicAlreadyExistsError
-import traci, time
+import traci
 
 # Functions for working with kafka topics and partitions
 
@@ -82,31 +82,31 @@ def createNewPartitions(server, topic, partitions):
 
 # Functions for sending data to kafka brokers
 
-def sendProbeData(vehicleIDs, producer, timestamp, topic):
+def sendProbeData(vehicleIDs, producer, topic):
     probes = getProbeVehicleIDs(vehicleIDs)
     for vehID in probes:
-        data = getProbeData(vehID, timestamp)  
+        data = getProbeData(vehID)  
         sendData(data, producer, topic, None)
 
-def sendCamData(vehicleIDs, producer, timestamp, topic):
+def sendCamData(vehicleIDs, producer, topic):
     for cam in CAMERA_LOOKUP:
         camVehicles = getCamVehicleIDs(cam, vehicleIDs)
         for vehID in camVehicles:
-            data = getCamData(vehID, cam, timestamp)
+            data = getCamData(vehID, cam)
             sendData(data, producer, topic, None)
 
-def sendTollData(vehicleIDs, producer, timestamp, topic):
+def sendTollData(vehicleIDs, producer, topic):
     x, y = traci.simulation.convertGeo(float("-6.3829509"), float("53.3617409"), fromGeo=True)
     p1 = [x, y]
     tollVehicles = getTollVehicleIDs(vehicleIDs, p1)
     for vehID in tollVehicles:
-        data = getTollData(vehID, p1, timestamp)
+        data = getTollData(vehID, p1)
         sendData(data, producer, topic, None)
 
-def sendInductionLoopData(vehicleIDs, producer, timestamp, topic):
+def sendInductionLoopData(vehicleIDs, producer, topic):
     for loop_group in LOOPS:
         for loop_id in loop_group:
-            data_list = getLoopData(loop_id, timestamp)
+            data_list = getLoopData(loop_id)
             for data in data_list:
                 sendData(data, producer, topic, None)
 
