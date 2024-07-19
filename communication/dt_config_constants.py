@@ -30,8 +30,9 @@ TOPIC_LOOKUP = { "enterprise_probe_vehicles":"probe_vehicles",
 # 09:00 - 09:15：33300
 # 19:00 - 19:15：69300
 # 22:00 - 22:15：80100
-# SIMULATION_DURATION = 0 + 3600 #3600 seconds = 1 hour
 
+SIMULATION_START_TIME = 65697.00 
+SIMULATION_END_TIME = 65700.00  
 
 pathToConfigs = '../configuration/'
 currentPath = str(pathlib.Path().resolve())
