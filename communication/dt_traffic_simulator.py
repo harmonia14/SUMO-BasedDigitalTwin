@@ -1,25 +1,30 @@
 #!/usr/bin/env python3.11
 
 import traci
-from dt_config_constants import SUMO_CMD, BROKER_EP, ENTERPRISE_EP, ENCODING, KAFKA_VERSION
-from dt_kafka_topic_manager import sendCamData, sendProbeData, sendTollData, sendInductionLoopData, initTopics, KafkaProducer
-from dt_sensor_data_generator import SUMO_HOME_TOOLS
 import time
 import logging
+from kafka import KafkaProducer
+from dt_config_constants import (
+    SUMO_CMD, BROKER_EP, ENTERPRISE_EP, KAFKA_VERSION, ENCODING,
+    SIMULATION_START_TIME, SIMULATION_END_TIME
+)
+from dt_kafka_topic_manager import sendProbeData, sendCamData, sendTollData, sendInductionLoopData, initTopics
 
 # Configure logging
 logging.basicConfig(filename='dt_traffic_simulator.log', 
                     level=logging.INFO, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
-SUMO_HOME_TOOLS()  # checks for SUMO dependency
-
-SIMULATION_START_TIME = 79200  # 22:00:00
-SIMULATION_END_TIME = 79500    # 22:05:00
+def send_data(vehIDs, allow_new_vehicles):
+    sendProbeData(vehIDs, probe_producer, "probe_vehicles", allow_new_vehicles)
+    sendCamData(vehIDs, camera_producer, "motorway_cameras", allow_new_vehicles)
+    sendTollData(vehIDs, toll_producer, "toll_bridge_cameras", allow_new_vehicles)
+    sendInductionLoopData(vehIDs, induction_loop_producer, "inductive_loops", allow_new_vehicles)
 
 print("Starting producers...")
 print("Connecting to cluster at:", BROKER_EP)
 
+# Define Kafka producers
 induction_loop_producer = KafkaProducer(bootstrap_servers=BROKER_EP, value_serializer=ENCODING, api_version=KAFKA_VERSION, compression_type='gzip')
 toll_producer = KafkaProducer(bootstrap_servers=ENTERPRISE_EP, value_serializer=ENCODING, api_version=KAFKA_VERSION)
 camera_producer = KafkaProducer(bootstrap_servers=ENTERPRISE_EP, value_serializer=ENCODING, api_version=KAFKA_VERSION)
@@ -33,30 +38,54 @@ print("Starting simulation...")
 traci.start(SUMO_CMD)
 
 sim_start_real_time = time.time()
+adding_vehicles = True
+existing_vehicles = set()
+last_log_time = 0
 
-while traci.simulation.getTime() < SIMULATION_END_TIME:
+while True:
     current_sim_time = traci.simulation.getTime()
     
-    # Send data at every simulation step (0.01s)
+    if current_sim_time >= SIMULATION_END_TIME and adding_vehicles:
+        adding_vehicles = False
+        print(f"Reached SIMULATION_END_TIME. Stopping addition of new vehicles.")
+        existing_vehicles = set(traci.vehicle.getIDList())
+    
     vehIDs = traci.vehicle.getIDList()
-    sendProbeData(vehIDs, probe_producer, "probe_vehicles")
-    sendCamData(vehIDs, camera_producer, "motorway_cameras")
-    sendTollData(vehIDs, toll_producer, "toll_bridge_cameras")
-    sendInductionLoopData(vehIDs, induction_loop_producer, "inductive_loops")
+    
+    if adding_vehicles:
+        vehIDs = traci.vehicle.getIDList()
+        send_data(vehIDs, True)
+
+    else:
+        # Only process existing vehicles
+        vehIDs = list(existing_vehicles.intersection(set(traci.vehicle.getIDList())))
+        if vehIDs:
+            send_data(vehIDs, False)
+        existing_vehicles = set(vehIDs)
     
     # Log every second of simulation time
-    if int(current_sim_time * 100) % 100 == 0:
+    if current_sim_time - last_log_time >= 1:
         logging.info(f"Simulation time: {current_sim_time:.2f}, Vehicle count: {len(vehIDs)}")
+        last_log_time = current_sim_time
     
     traci.simulationStep()
+    
+    if not adding_vehicles and len(existing_vehicles) == 0:
+        print("All existing vehicles have completed their routes. Ending simulation.")
+        break
+
 
 sim_end_real_time = time.time()
 real_duration_s = sim_end_real_time - sim_start_real_time
 
-print(f'Simulation finished. Simulated time: {SIMULATION_END_TIME - SIMULATION_START_TIME} seconds')
+print(f'Simulation finished. Simulated time: {traci.simulation.getTime() - SIMULATION_START_TIME:.2f} seconds')
 print(f'Real-time duration: {real_duration_s:.2f} seconds')
 
 traci.close()
 print("Simulation ended. SUMO closed.")
 
-# You can use dt_file_io_utils here if needed to write additional information
+# Close Kafka producers
+induction_loop_producer.close()
+toll_producer.close()
+camera_producer.close()
+probe_producer.close()

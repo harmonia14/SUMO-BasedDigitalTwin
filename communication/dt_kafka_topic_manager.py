@@ -82,33 +82,38 @@ def createNewPartitions(server, topic, partitions):
 
 # Functions for sending data to kafka brokers
 
-def sendProbeData(vehicleIDs, producer, topic):
-    probes = getProbeVehicleIDs(vehicleIDs)
+def sendProbeData(vehicleIDs, producer, topic, allow_new_vehicles):
+    probes = getProbeVehicleIDs(vehicleIDs, allow_new_vehicles)
     for vehID in probes:
-        data = getProbeData(vehID)  
-        sendData(data, producer, topic, None)
+        data = getProbeData(vehID, allow_new_vehicles)
+        if data:
+            sendData(data, producer, topic, None, allow_new_vehicles)
 
-def sendCamData(vehicleIDs, producer, topic):
+def sendCamData(vehicleIDs, producer, topic, allow_new_vehicles):
     for cam in CAMERA_LOOKUP:
-        camVehicles = getCamVehicleIDs(cam, vehicleIDs)
+        camVehicles = getCamVehicleIDs(cam, vehicleIDs, allow_new_vehicles)
         for vehID in camVehicles:
-            data = getCamData(vehID, cam)
-            sendData(data, producer, topic, None)
+            data = getCamData(vehID, cam, allow_new_vehicles)
+            if data:
+                sendData(data, producer, topic, None, allow_new_vehicles)
 
-def sendTollData(vehicleIDs, producer, topic):
+def sendTollData(vehicleIDs, producer, topic, allow_new_vehicles):
     x, y = traci.simulation.convertGeo(float("-6.3829509"), float("53.3617409"), fromGeo=True)
     p1 = [x, y]
-    tollVehicles = getTollVehicleIDs(vehicleIDs, p1)
+    tollVehicles = getTollVehicleIDs(vehicleIDs, p1, allow_new_vehicles)
     for vehID in tollVehicles:
-        data = getTollData(vehID, p1)
-        sendData(data, producer, topic, None)
+        data = getTollData(vehID, p1, allow_new_vehicles)
+        if data:
+            sendData(data, producer, topic, None, allow_new_vehicles)
 
-def sendInductionLoopData(vehicleIDs, producer, topic):
+def sendInductionLoopData(vehicleIDs, producer, topic, allow_new_vehicles):
     for loop_group in LOOPS:
         for loop_id in loop_group:
-            data_list = getLoopData(loop_id)
+            data_list = getLoopData(loop_id, allow_new_vehicles)
             for data in data_list:
-                sendData(data, producer, topic, None)
-
-def sendData(data, producer, topic, partition):
-    producer.send(topic=topic, value=data, partition=partition)
+                if data:
+                    sendData(data, producer, topic, None, allow_new_vehicles)
+                    
+def sendData(data, producer, topic, partition, allow_new_vehicles):
+    if allow_new_vehicles or (data['vehicle_id'] in traci.vehicle.getIDList()):
+        producer.send(topic=topic, value=data, partition=partition)

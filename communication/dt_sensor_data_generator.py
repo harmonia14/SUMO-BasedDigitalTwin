@@ -64,12 +64,14 @@ def get_loop_direction(loop_id):
     else:
         return 'Unknown'
 
-def getVehiclesInView(vehicleIDs, sensor, r, dir):
+def getVehiclesInView(vehicleIDs, sensor, r, dir, allow_new_vehicles):
     lon, lat = sensor["coordinates"].split(",")
     x, y = traci.simulation.convertGeo(float(lat), float(lon), fromGeo=True)
     p1 = [x, y]
     vehicles = []
     for vehID in vehicleIDs:
+        if not allow_new_vehicles and vehID not in traci.vehicle.getIDList():
+            continue
         x, y = traci.vehicle.getPosition(vehID)
         p2 = [x, y]
         if (dir == 'N' and p2[1] > p1[1]) or (dir == 'S' and p2[1] < p1[1]):
@@ -77,22 +79,29 @@ def getVehiclesInView(vehicleIDs, sensor, r, dir):
                 vehicles.append(vehID)
     return vehicles
 
-def getCamVehicleIDs(camera_id, vehicleIDs):
-    return getVehiclesInView(vehicleIDs, CAMERA_LOOKUP[camera_id], 150, camera_id[4])
+def getCamVehicleIDs(camera_id, vehicleIDs, allow_new_vehicles):
+    return getVehiclesInView(vehicleIDs, CAMERA_LOOKUP[camera_id], 150, camera_id[4], allow_new_vehicles)
 
-def getInductionLoopVehicleIDs(loop_id, vehicleIDs):
+def getInductionLoopVehicleIDs(loop_id, vehicleIDs, allow_new_vehicles):
     loopVehicles = traci.inductionloop.getLastStepVehicleIDs(loop_id)
+    if not allow_new_vehicles:
+        loopVehicles = [veh for veh in loopVehicles if veh in traci.vehicle.getIDList()]
     return [vehID for vehID in loopVehicles if vehID in vehicleIDs]
 
-def getProbeVehicleIDs(vehicleIDs):
-    return [vehID for vehID in vehicleIDs if traci.vehicle.getTypeID(vehID) in autonomousVehicles]
+def getProbeVehicleIDs(vehicleIDs, allow_new_vehicles):
+    vehicles = [vehID for vehID in vehicleIDs if traci.vehicle.getTypeID(vehID) in autonomousVehicles]
+    if not allow_new_vehicles:
+        vehicles = [veh for veh in vehicles if veh in traci.vehicle.getIDList()]
+    return vehicles
 
-def getTollVehicleIDs(vehicleIDs, p1):
-    return getVehiclesInViewToll(vehicleIDs, 100, p1)
+def getTollVehicleIDs(vehicleIDs, p1, allow_new_vehicles):
+    return getVehiclesInViewToll(vehicleIDs, 100, p1, allow_new_vehicles)
 
-def getVehiclesInViewToll(vehicleIDs, r, p1):
+def getVehiclesInViewToll(vehicleIDs, r, p1, allow_new_vehicles):
     vehicles = []
     for vehID in vehicleIDs:
+        if not allow_new_vehicles and vehID not in traci.vehicle.getIDList():
+            continue
         x, y = traci.vehicle.getPosition(vehID)
         p2 = [x, y]
         if calcDistance(p1, p2) < r and getDirection(vehID, TOLL_BRIDGE):
@@ -118,7 +127,7 @@ def create_unified_data(sensor_type, **kwargs):
     }
     return {k: v for k, v in data.items() if v != ''}  # Remove empty fields
 
-def getLoopData(loop_id):
+def getLoopData(loop_id, allow_new_vehicles):
     vehicle_data = traci.inductionloop.getVehicleData(loop_id)
     loop_position = traci.inductionloop.getPosition(loop_id)
     
@@ -137,7 +146,7 @@ def getLoopData(loop_id):
     
     data_list = []
     for veh_id, veh_length, entry_time, exit_time, vType in vehicle_data:
-        if exit_time < 0:  # Vehicle is still on the loop
+        if exit_time < 0 and (allow_new_vehicles or veh_id in traci.vehicle.getIDList()):
             veh_x, veh_y = traci.vehicle.getPosition(veh_id)
             distance = math.sqrt((loop_x - veh_x)**2 + (loop_y - veh_y)**2)
             lane_position = traci.vehicle.getLanePosition(veh_id)
@@ -162,7 +171,9 @@ def getLoopData(loop_id):
     
     return data_list
 
-def getCamData(vehID, camera_id):
+def getCamData(vehID, camera_id, allow_new_vehicles):
+    if not allow_new_vehicles and vehID not in traci.vehicle.getIDList():
+        return None
     lon, lat = CAMERA_LOOKUP[camera_id]["coordinates"].split(",")
     x, y = traci.simulation.convertGeo(float(lat), float(lon), fromGeo=True)
     p1 = [x, y]
@@ -182,7 +193,9 @@ def getCamData(vehID, camera_id):
         route_id=traci.vehicle.getRouteID(vehID) 
     )
 
-def getProbeData(vehID):
+def getProbeData(vehID, allow_new_vehicles):
+    if not allow_new_vehicles and vehID not in traci.vehicle.getIDList():
+        return None
     lane_position = traci.vehicle.getLanePosition(vehID)
     return create_unified_data(
         'probe',
@@ -198,7 +211,9 @@ def getProbeData(vehID):
         route_id=traci.vehicle.getRouteID(vehID) 
     )
 
-def getTollData(vehID, p1):
+def getTollData(vehID, p1, allow_new_vehicles):
+    if not allow_new_vehicles and vehID not in traci.vehicle.getIDList():
+        return None
     x, y = traci.vehicle.getPosition(vehID)
     p2 = [x, y]
     return create_unified_data(
