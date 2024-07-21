@@ -12,7 +12,7 @@ from dt_kafka_topic_manager import sendProbeData, sendCamData, sendTollData, sen
 
 # Configure logging
 logging.basicConfig(filename='dt_traffic_simulator.log', 
-                    level=logging.INFO, 
+                    level=logging.ERROR, 
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 def send_data(vehIDs, allow_new_vehicles):
