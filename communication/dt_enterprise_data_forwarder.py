@@ -14,7 +14,7 @@ logging.basicConfig(filename='dt_enterprise_data_forwarder.log',
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 def consume(producerEP, consumerEP, topic):
-    producer = KafkaProducer(bootstrap_servers=producerEP, value_serializer=ENCODING, compression_type='gzip')
+    producer = KafkaProducer(bootstrap_servers=producerEP, value_serializer=ENCODING, compression_type='gzip', api_version=KAFKA_VERSION)
     consumer = KafkaConsumer(bootstrap_servers=consumerEP, value_deserializer=DECODING, api_version=KAFKA_VERSION)
     consumer.subscribe(topics=topic)
     logging.info(f"Consumer for topics {topic} is running...")
